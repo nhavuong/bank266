@@ -1,16 +1,13 @@
 
 package com.example.bank266;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
 @RestController
 public class DemoApplication {
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -22,9 +19,13 @@ public class DemoApplication {
 	}
 
 	@RequestMapping("/")
-	public String getHomepage() {
-		return "index";
+	public String index() {
+		return "login";
 	}
 
+	@PostMapping("/login")
+	public void login(@RequestParam(value = "username", defaultValue = "") String username,
+						@RequestParam(value = "password", defaultValue = "") String password) {
+		System.out.println(username + " : " + password);
+	}
 }
-            
