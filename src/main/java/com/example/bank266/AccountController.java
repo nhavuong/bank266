@@ -2,30 +2,38 @@ package com.example.bank266;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AccountController {
 
+    private int balance = 0;
+
     @GetMapping("/account")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        System.out.println("######### Yukan in account");
-        return "account.html";
+    public String greeting(
+            @RequestParam(name="name", required=false, defaultValue="World") String name,
+            Model model) {
+        model.addAttribute("balance", balance);
+        // System.out.println("######### Yukan in account");
+        return "account";
     }
 
-    @RequestMapping(value = "/account", method = RequestMethod.POST)
+    @PostMapping(value = "/account")
     public String processFeed(
-            @RequestParam(value = "amount", required = false) String amount,
+            @RequestParam(value = "amount", required = false) Integer amount,
+            @RequestParam(value = "deposit", required = false) String deposit,
+            @RequestParam(value = "withdraw", required = false) String withdraw,
             Model model,
             HttpServletRequest httpRequest) {
-        System.out.println("######### Yukan in account post " + amount);
-        return "account.html";
+
+        if (amount != null) {
+            balance += (deposit != null) ? amount : ((withdraw != null) ? -amount : 0);
+        }
+        // System.out.printf("######### Yukan in account post, amount: %d, balance: %d\n", amount, balance);
+        model.addAttribute("balance", balance);
+        return "account";
     }
 
 }

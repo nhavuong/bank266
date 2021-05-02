@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Bank 266</title>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" th:href="@{/style.css}" />
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <!--    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">-->
 
@@ -12,7 +12,8 @@
 <body>
 <div class="main">
     <h2 class="welcome" align="center">Welcome to Bank 266 </h2>
-    <p class="sign" align="center">Balance: </p>
+<!--    <p class="sign" align="center">Balance: </p>-->
+    <p class="sign" align="center" th:text="'Balance: $ ' + ${balance}" />
     <form class="form1" method="POST" action="account">
         <input class="amount" type="number" align="center" name="amount" placeholder="Amount: " pattern="/(0|[1-9][0-9]*)/">
         <input type="submit" class="withdraw" align="left" name="withdraw" value="Withdraw">
