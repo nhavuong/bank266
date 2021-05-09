@@ -51,12 +51,12 @@ public class AccountController {
         String username = findUserName(httpRequest);
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
 
-        if (amount != null && NumberUtils.isCreatable(amount)) {
+        if (NumberUtils.isCreatable(amount)) {
             Integer amountNumber = NumberUtils.toInt(amount);
             double delta = (deposit != null) ? amountNumber : ((withdraw != null) ? -amountNumber : 0);
             userInfo.setBalance(userInfo.getBalance() + delta);
             userInfoService.save(userInfo);
-        } else {
+        } else if (amount != null) {
             model.addAttribute("warning", "Your input was ill-formatted: " + amount);
         }
         // System.out.printf("######### Yukan in account post, amount: %d, balance: %d\n", amount, balance);
