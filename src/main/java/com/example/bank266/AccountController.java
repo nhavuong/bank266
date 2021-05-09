@@ -1,6 +1,7 @@
 package com.example.bank266;
 
 import com.example.bank266.services.UserInfoService;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +42,7 @@ public class AccountController {
 
     @PostMapping(value = "/account")
     public String processFeed(
-            @RequestParam(value = "amount", required = false) Integer amount,
+            @RequestParam(value = "amount", required = false) String amount,
             @RequestParam(value = "deposit", required = false) String deposit,
             @RequestParam(value = "withdraw", required = false) String withdraw,
             Model model,
@@ -50,10 +51,13 @@ public class AccountController {
         String username = findUserName(httpRequest);
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
 
-        if (amount != null) {
-            double delta = (deposit != null) ? amount : ((withdraw != null) ? -amount : 0);
+        if (amount != null && NumberUtils.isCreatable(amount)) {
+            Integer amountNumber = NumberUtils.toInt(amount);
+            double delta = (deposit != null) ? amountNumber : ((withdraw != null) ? -amountNumber : 0);
             userInfo.setBalance(userInfo.getBalance() + delta);
             userInfoService.save(userInfo);
+        } else {
+            model.addAttribute("warning", "Your input was ill-formatted: " + amount);
         }
         // System.out.printf("######### Yukan in account post, amount: %d, balance: %d\n", amount, balance);
         model.addAttribute("username", userInfo.getName());
