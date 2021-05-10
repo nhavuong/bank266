@@ -24,6 +24,11 @@ public class AccountController {
         return username;
     }
 
+    private void updatesModel(Model model, UserInfo userInfo) {
+        model.addAttribute("username", userInfo.getName());
+        model.addAttribute("balance", String.format("%.2f", userInfo.getBalance()));
+    }
+
     @GetMapping("/account")
     public String greeting(
             @RequestParam(name="name", required=false, defaultValue="World") String name,
@@ -35,9 +40,7 @@ public class AccountController {
             return Utils.redirect("/");
         System.out.println("######## Yukan in AccountController.greeting ");
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
-
-        model.addAttribute("username", userInfo.getName());
-        model.addAttribute("balance", userInfo.getBalance());
+        updatesModel(model, userInfo);
         // System.out.println("######### Yukan in account");
         return "account";
     }
@@ -54,7 +57,7 @@ public class AccountController {
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
 
         if (NumberUtils.isCreatable(amount)) {
-            Integer amountNumber = NumberUtils.toInt(amount);
+            Double amountNumber = NumberUtils.toDouble(amount);
             double delta = (deposit != null) ? amountNumber : ((withdraw != null) ? -amountNumber : 0);
             userInfo.setBalance(userInfo.getBalance() + delta);
             userInfoService.save(userInfo);
@@ -62,8 +65,8 @@ public class AccountController {
             model.addAttribute("warning", "Your input was ill-formatted: " + amount);
         }
         // System.out.printf("######### Yukan in account post, amount: %d, balance: %d\n", amount, balance);
-        model.addAttribute("username", userInfo.getName());
-        model.addAttribute("balance", userInfo.getBalance());
+
+        updatesModel(model, userInfo);
         return "account";
     }
 
