@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @SpringBootApplication
 @RestController
@@ -31,4 +36,5 @@ public class DemoApplication implements CommandLineRunner {
 			System.out.println("bank266 password: " + userInfo.getPassword());
 		}
 	}
+
 }
