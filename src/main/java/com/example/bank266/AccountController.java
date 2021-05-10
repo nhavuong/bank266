@@ -18,8 +18,8 @@ public class AccountController {
     private String findUserName(HttpServletRequest httpRequest) {
         String username = (String) httpRequest.getSession().getAttribute("username");
         if (username == null) {
-            System.out.println("Bank266:AccountController User is not Logged In - use admin ...");
-            return "admin";
+            System.out.println("Bank266:AccountController User is not Logged In - go back to login page ...");
+            return null;
         }
         return username;
     }
@@ -31,6 +31,8 @@ public class AccountController {
             HttpServletRequest httpRequest) {
 
         String username = findUserName(httpRequest);
+        if (username == null)
+            return Utils.redirect("/");
         System.out.println("######## Yukan in AccountController.greeting ");
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
 
