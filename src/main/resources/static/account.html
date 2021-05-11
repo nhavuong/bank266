@@ -24,11 +24,11 @@
         <p class="signup" align="center"><a href="/logout"> Logout </a></p>
     </form>
 
-    <p>Help us to improve, leave your comments</p>
+    <p class="help" align="center"> Help us to improve, leave your comments</p>
     <form action="#" th:action="@{/account}" th:object="${comment}" method="POST" >
-        <textarea rows="5" cols="25" th:field="*{message}"></textarea>
+        <textarea rows="5" cols="30" th:field="*{message}"></textarea>
         <br/>
-        <button type="submit">Submit</button>
+        <button class="submit" type="submit">Submit</button>
     </form>
     <p class="sign" align="center" th:if="${lastComment!=null}" th:utext="${lastComment}"/>
 
