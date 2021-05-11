@@ -15,21 +15,16 @@
 <!--    <p class="sign" align="center">Balance: </p>-->
     <p class="sign" align="center" th:text="'Balance: $ ' + ${balance}" />
     <p class="sign" align="center" th:if="${warning!=null}" th:utext="${warning}"/>
-    <form class="form1" method="POST" action="account">
+    <form class="form1" method="POST" action="#" th:action="@{/account}" th:object="${comment}" >
 <!--        <input class="amount" type="number" align="center" name="amount" placeholder="Amount: " pattern="/(0|[1-9][0-9]*)/">-->
-        <input class="amount" align="center" name="amount" placeholder="Amount: " pattern="([1-9][0-9]*.[0-9]{2})">
+        <input class="amount" align="center" name="amount" placeholder="Amount: " >
+        <textarea align="center" rows="5" cols="30" th:field="*{message}" th:placeholder="'Additional comment about this transaction ...'"></textarea>
         <input type="submit" class="withdraw" align="left" name="withdraw" value="Withdraw">
         <input type="submit" class="deposit" align="right" name="deposit" value="Deposit">
         <!--        <a class="submit" align="center">Submit</a>-->
         <p class="signup" align="center"><a href="/logout"> Logout </a></p>
     </form>
 
-    <p class="help" align="center"> Help us to improve, leave your comments</p>
-    <form action="#" th:action="@{/account}" th:object="${comment}" method="POST" >
-        <textarea rows="5" cols="30" th:field="*{message}"></textarea>
-        <br/>
-        <button class="submit" type="submit">Submit</button>
-    </form>
     <p class="sign" align="center" th:if="${lastComment!=null}" th:utext="${lastComment}"/>
 
 
