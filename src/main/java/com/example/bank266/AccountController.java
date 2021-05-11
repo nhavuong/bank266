@@ -35,10 +35,12 @@ public class AccountController {
             Model model,
             HttpServletRequest httpRequest) {
 
+        model.addAttribute("comment", new Comment());
+
         String username = findUserName(httpRequest);
         if (username == null)
             return Utils.redirect("/");
-        System.out.println("######## Yukan in AccountController.greeting ");
+        // System.out.println("######## Yukan in AccountController.greeting ");
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
         updatesModel(model, userInfo);
         // System.out.println("######### Yukan in account");
@@ -50,6 +52,7 @@ public class AccountController {
             @RequestParam(value = "amount", required = false) String amount,
             @RequestParam(value = "deposit", required = false) String deposit,
             @RequestParam(value = "withdraw", required = false) String withdraw,
+            @ModelAttribute Comment comment,
             Model model,
             HttpServletRequest httpRequest) {
 
@@ -67,6 +70,12 @@ public class AccountController {
         // System.out.printf("######### Yukan in account post, amount: %d, balance: %d\n", amount, balance);
 
         updatesModel(model, userInfo);
+
+        if ((comment.getMessage() != null) && (comment.getMessage().length() > 0)) {
+            // System.out.println("######### Yukan in account post: " + comment.getMessage());
+            model.addAttribute("lastComment", "You comment: \"" + comment.getMessage() + "\" has been submitted");
+            comment.setMessage(null);
+        }
         return "account";
     }
 
