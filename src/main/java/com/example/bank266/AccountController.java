@@ -1,6 +1,7 @@
 package com.example.bank266;
 
 import com.example.bank266.services.UserInfoService;
+import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,8 +60,9 @@ public class AccountController {
         String username = findUserName(httpRequest);
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
 
-        if (amount.matches("([1-9][0-9]*|0)\\.[0-9]{2}")) {
-            Double amountNumber = NumberUtils.toDouble(amount);
+        ValidAmount validAmount = new ValidAmount(amount);
+        if (validAmount.getAmount() != null) {
+            Double amountNumber = validAmount.getAmount();
             double delta = (deposit != null) ? amountNumber : ((withdraw != null) ? -amountNumber : 0);
             if (userInfo.getBalance() + delta < 0.0) {
                 model.addAttribute("warning", "Overdraft is not allowed");
