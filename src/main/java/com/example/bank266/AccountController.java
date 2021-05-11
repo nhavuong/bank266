@@ -62,8 +62,12 @@ public class AccountController {
         if (amount.matches("[1-9][0-9]*\\.[0-9]{2}")) {
             Double amountNumber = NumberUtils.toDouble(amount);
             double delta = (deposit != null) ? amountNumber : ((withdraw != null) ? -amountNumber : 0);
-            userInfo.setBalance(userInfo.getBalance() + delta);
-            userInfoService.save(userInfo);
+            if (userInfo.getBalance() + delta < 0.0) {
+                model.addAttribute("warning", "Overdraft is not allowed");
+            } else {
+                userInfo.setBalance(userInfo.getBalance() + delta);
+                userInfoService.save(userInfo);
+            }
         } else {
             model.addAttribute("warning", "Your input was invalid_input: \"" + amount + "\"");
         }
