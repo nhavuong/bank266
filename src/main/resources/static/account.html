@@ -18,7 +18,7 @@
     <form class="form1" method="POST" action="#" th:action="@{/account}" th:object="${comment}" >
 <!--        <input class="amount" type="number" align="center" name="amount" placeholder="Amount: " pattern="/(0|[1-9][0-9]*)/">-->
         <input class="amount" align="center" name="amount" placeholder="Amount: " >
-        <textarea align="center" rows="5" cols="30" th:field="*{message}" th:placeholder="'Additional comment about this transaction ...'"></textarea>
+        <textarea class="amount" align="center" rows="5" cols="30" th:field="*{message}" th:placeholder="'Additional comment about this transaction ...'"></textarea>
         <input type="submit" class="withdraw" align="left" name="withdraw" value="Withdraw">
         <input type="submit" class="deposit" align="right" name="deposit" value="Deposit">
         <!--        <a class="submit" align="center">Submit</a>-->
