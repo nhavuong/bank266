@@ -59,13 +59,13 @@ public class AccountController {
         String username = findUserName(httpRequest);
         UserInfo userInfo = userInfoService.searchUserByName(username).get(0);
 
-        if (NumberUtils.isCreatable(amount)) {
+        if (amount.matches("[1-9][0-9]*\\.[0-9]{2}")) {
             Double amountNumber = NumberUtils.toDouble(amount);
             double delta = (deposit != null) ? amountNumber : ((withdraw != null) ? -amountNumber : 0);
             userInfo.setBalance(userInfo.getBalance() + delta);
             userInfoService.save(userInfo);
-        } else if (amount != null) {
-            model.addAttribute("warning", "Your input was ill-formatted: " + amount);
+        } else {
+            model.addAttribute("warning", "Your input was invalid_input: \"" + amount + "\"");
         }
         // System.out.printf("######### Yukan in account post, amount: %d, balance: %d\n", amount, balance);
 
