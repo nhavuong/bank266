@@ -14,8 +14,8 @@
     <h2 class="welcome" align="center">Welcome to Bank 266 </h2>
     <p class="sign" align="center">Sign in</p>
     <form action="/login" class="form1" method="post">
-        <input class="un" name="username" type="text" align="center" placeholder="Username" >
-        <input class="pass" name="password" type="password" align="center" placeholder="Password" >
+        <input class="un" name="username" type="text" align="center" placeholder="Username" pattern="^[a-z0-9-_.]+$" minlength="1" maxlength="127">
+        <input class="pass" name="password" type="password" align="center" placeholder="Password"pattern="^[a-z0-9-_.]+$" minlength="1" maxlength="127">
         <input type="submit" class="submit" align="center" value="Sign in">
 <!--        <a class="submit" align="center">Sign in</a>-->
         <p class="forgot" align="center"><a href="#">Forgot Password? </a></p>
