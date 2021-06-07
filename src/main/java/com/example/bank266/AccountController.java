@@ -78,7 +78,11 @@ public class AccountController {
         updatesModel(model, userInfo);
 
         if ((comment.getMessage() != null) && (comment.getMessage().length() > 0)) {
-            // System.out.println("######### Yukan in account post: " + comment.getMessage());
+            System.out.println("######### Yukan in account post: " + comment.getMessage());
+            // CWE-80 cross-site scripting mitigation
+            // Remove <script>.*</script> in comment
+            comment.removeJS();
+            System.out.println("######### Yukan in account post after removing JS: " + comment.getMessage());
             model.addAttribute("lastComment", "You comment: \"" + comment.getMessage() + "\" has been submitted");
             comment.setMessage(null);
         }

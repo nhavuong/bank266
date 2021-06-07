@@ -11,4 +11,9 @@ public class Comment {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String removeJS() {
+        message = message.replaceAll("<script>.*</script>", "");
+        return message;
+    }
 }
