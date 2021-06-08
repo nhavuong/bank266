@@ -53,33 +53,34 @@ public class LoginController {
         String sessionUsername = (String)session.getAttribute("username");
         if(sessionUsername != null){
             System.out.println("Already logged in as " + sessionUsername);
-            return Utils.redirect("account");
         }
         else{
             Connection con = connectDB();
             if(con != null){
                 System.out.println("connect to db");
 
-                String loginSql = "Select name, password from user_info where name = '" + username + "' and password = '" + password + "';";
-                Statement sqlStatement = con.createStatement();
-                ResultSet resultSet = sqlStatement.executeQuery(loginSql);
+                String loginSql = "Select name, password from user_info where name = ? and password = ?;";
+                PreparedStatement preparedStatement = con.prepareStatement(loginSql);
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+                ResultSet resultSet = preparedStatement.executeQuery();
 
                 if(resultSet.next()){
                     System.out.println("User found");
                     session.setAttribute("username", resultSet.getString("name"));
                     con.close();
-                    sqlStatement.close();
+                    preparedStatement.close();
                     return Utils.redirect("account");
                 }
                 else{
                     System.out.println("User not found or password not match");
-                    sqlStatement.close();
+                    preparedStatement.close();
                     con.close();
                     System.out.println((String)httpRequest.getSession().getAttribute("username"));
                     return Utils.redirect("/");
                 }
             }
-            return Utils.redirect("account");
         }
+        return Utils.redirect("account");
     }
 }
