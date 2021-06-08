@@ -1,5 +1,6 @@
 package com.example.bank266;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ import java.util.regex.Pattern;
 
 @Controller
 public class RegisterController {
+
+    private org.apache.commons.codec.digest.DigestUtils DigestUtils;
 
     private Connection connectDB() {
         Connection connection = null;
@@ -54,7 +57,9 @@ public class RegisterController {
                 break;
             }
         }
-
+        //Fix issue4
+        password =  org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+        //End Fix
         if(number.contains(".")){
             String[] arry = number.split("[.]");
             if(arry.length != 2) isValid = false;

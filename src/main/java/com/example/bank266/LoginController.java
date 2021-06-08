@@ -58,7 +58,9 @@ public class LoginController {
             Connection con = connectDB();
             if(con != null){
                 System.out.println("connect to db");
-
+                //Fix issue4
+                password =  org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+                //Endfix
                 String loginSql = "Select name, password from user_info where name = ? and password = ?;";
                 PreparedStatement preparedStatement = con.prepareStatement(loginSql);
                 preparedStatement.setString(1, username);
