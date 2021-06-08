@@ -86,6 +86,19 @@ public class RegisterController {
         if(con != null){
             String Sql = "INSERT INTO user_info (name, password, balance) VALUES (\'" + username + "','" + password+"','" + number + "');";
             Statement sqlStatement = con.createStatement();
+
+            //Fix Issue 2
+            String Sql2 = "SELECT * FROM user_info" + " Where name = \'" + username + "\';";
+            ResultSet rs = sqlStatement.executeQuery(Sql2);
+            if(rs.next())
+            {
+                redirAttrs.addFlashAttribute("message", "invalid_input");
+                return Utils.redirect("register");
+            }
+            //End of Fix
+
+
+
             int res = sqlStatement.executeUpdate(Sql);
             if(res > 0){
                 con.close();
